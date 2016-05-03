@@ -1,4 +1,5 @@
 var main = function (toDoObjects) {
+    
     "use strict";
     console.log("SANITY CHECK");
     var toDos = toDoObjects.map(function (toDo) {
@@ -118,6 +119,45 @@ var main = function (toDoObjects) {
 };
 
 $(document).ready(function () {
+    function AppViewModel() {
+        this.pageTitle = "Amazerriffic by GS7 & RKM";
+        this.comments = "This is a simple commenting app by GS7 & RKM";
+    }
+
+   
+    function Task(data) {
+    this.title = ko.observable(data.title);
+    this.isDone = ko.observable(data.isDone);
+    }
+
+    function TaskListViewModel() {
+        // Data
+        var self = this;
+        self.tasks = ko.observableArray([]);
+        self.newTaskText = ko.observable();
+        self.incompleteTasks = ko.computed(function() {
+            return ko.utils.arrayFilter(self.tasks(), function(task) { return !task.isDone() });
+        });
+
+        // Operations
+        self.addTask = function() {
+            self.tasks.push(new Task({ title: this.newTaskText() }));
+            self.newTaskText("");
+        };
+        self.removeTask = function(task) { self.tasks.remove(task) };
+         $.getJSON("/todos.json", function(allData) {
+        var mappedTasks = $.map(allData, function(item) { return new Task(item) });
+        self.tasks(mappedTasks);
+    });
+    }
+
+        
+
+        // Load initial state from server, convert it to Task instances, then populate self.tasks
+     // Activates knockout.js
+    
+
+    ko.applyBindings(new TaskListViewModel());
     $.getJSON("todos.json", function (toDoObjects) {
         main(toDoObjects);
     });

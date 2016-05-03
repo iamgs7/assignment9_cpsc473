@@ -2,13 +2,14 @@
 <html>
   <head>
     <title>Amazeriffic!</title>
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
   </head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -33,8 +34,8 @@
   <body>
     <header>
       <div class="container">
-        <h1>Amazeriffic!</h1>
-        <nav>
+        <!-- <h1 data-bind="text: pageTitle"></h1>
+         --><nav>
           <a href="#">Sign Up!</a> |
           <a href="#">FAQ</a> |
           <a href="#">Support</a>
@@ -49,6 +50,16 @@
         <a href=""><span>Tags</span></a>
         <a href=""><span>Add</span></a>
       </div>
+      <form data-bind="submit: addTask">
+          Add ToDo: <input data-bind="value: newTaskText, disable: isDone" placeholder="What needs to be done?" />
+          <button type="submit">Add</button>
+      </form>
+      <ul data-bind="foreach: tasks, visible: tasks().length > 0">
+          <li>
+              <input data-bind="value: title" />
+              <a href="#" data-bind="click: $parent.removeTask">Delete</a>
+          </li> 
+      </ul>
       <div class="content">
         
       </div>

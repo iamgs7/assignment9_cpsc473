@@ -2,6 +2,7 @@ var express = require("express"),
     mongoose = require("mongoose"),
     app = express();
 var http = require('http').Server(app);
+var bodyParser = require('body-parser');
 
 //SOCKET.IO CODE
 var io = require('socket.io')(http);
@@ -18,7 +19,7 @@ io.on('connection', function(socket) {
 });
 
 app.use(express.static(__dirname + "/client"));
-app.use(express.bodyParser());
+app.use(bodyParser());
 
 // connect to the amazeriffic data store in mongo
 mongoose.connect('mongodb://localhost/amazeriffic');
